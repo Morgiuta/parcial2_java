@@ -1,0 +1,6 @@
+VAR#>mvn install:install-file \\
+	  -Dfile=RUTA/AL/mysql-connector-j-8.0.33.jar \\
+	  -DgroupId=mysql \\
+	  -DartifactId=mysql-connector-j \\
+	  -Dversion=8.0.33 \\
+	  -Dpackaging=jar
