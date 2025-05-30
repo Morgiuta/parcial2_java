@@ -26,10 +26,10 @@ public class PersonaDAO{
         }
     }
 
-    public boolean buscarPersona(Connection conn, String documento) {
-        String sql = "SELECT pers_documento, pers_nombre FROM persona WHERE persona = ?";
+    public boolean buscarPersona(Connection conn, Persona persona) {
+        String sql = "SELECT pers_documento, pers_nombre FROM persona WHERE pers_documento = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)){
-            ps.setString(1, documento);
+            ps.setInt(1, persona.getDni());
             ps.executeQuery();
             return true;
         }catch (SQLException e){

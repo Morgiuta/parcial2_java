@@ -49,9 +49,23 @@ public class Controlador implements ActionListener {
         //model.setNumeroDos(Integer.parseInt(view.usuario.getText()));
     }
     
-    public void login(String nombre, int dni){
-        
+    public boolean login(String nombre, int dni){
         Persona persona = new Persona(dni,nombre);
+        PersonaDAO dao = new PersonaDAO();
+
+        try (Connection conn = Conexion.getConnection()){
+            boolean respuesta = dao.buscarPersona(conn, persona);
+
+            if (respuesta){
+                System.out.println("Persona Encontrada");
+            } else {
+                System.out.println("No se encontro al usuario");
+            }
+            return respuesta;
+        } catch (SQLException e) {
+            System.out.println("Error al consultar a la base de datos");
+            return false;
+        }
     }
     
     public boolean singIn(String nombre, int dni){
@@ -72,19 +86,5 @@ public class Controlador implements ActionListener {
             return false;
         }
     }
-    
-    
-    public void bddConnection(){
-        try {
-      Class.forName("org.mariadb.jdbc.Driver");
-      Connection conn = DriverManager.getConnection(
-          "jdbc:mariadb://localhost:3306/parcial_java", "root", "inolvidable");
-      System.out.println("Conexión exitosa");
-  } catch (ClassNotFoundException | SQLException e) {
-      e.printStackTrace();
-  }
-
-    }
-   
 }
 ;

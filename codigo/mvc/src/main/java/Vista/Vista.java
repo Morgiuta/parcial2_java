@@ -418,22 +418,22 @@ public class Vista extends javax.swing.JFrame {
         
         String passw = pass.getText();
         String username = usuario.getText();
+        int clave;
+        clave = Integer.parseInt(passw);
 
         if (passw.isEmpty()  && username.isEmpty() ){
-            titulo.setText("error");
-            System.out.println("errorrrr");
+            titulo.setText("Ingrese su DNI");
+            System.out.println("No ingreso DNI");
         }else{
-            //int password = Integer(pass.getText());
-            jPanelLogin.setVisible(false);
-            jPanelMenu.setVisible(true); 
-            bienvenido.setText("Bienvenido " + username);
-            control.login(username, 12);
+            boolean respuesta = control.login(username, clave);
+            if (respuesta){
+                jPanelLogin.setVisible(false);
+                jPanelMenu.setVisible(true);
+                bienvenido.setText("Bienvenido " + username);
+            } else {
+                System.out.println("Alguno de los datos es incorrecto");
+            }
         }
-        
-       control.bddConnection();
-        
-       
-        
     }//GEN-LAST:event_btn1ActionPerformed
 
     private void usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioActionPerformed
