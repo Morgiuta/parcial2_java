@@ -1,2 +1,5 @@
 # Ignorar archivos de configuración personal de base de datos
 codigo/mvc/src/main/java/modelo/Conexion.java
+
+*.class
+/target/

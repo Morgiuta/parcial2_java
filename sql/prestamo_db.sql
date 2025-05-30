@@ -18,13 +18,15 @@ CREATE TABLE `persona` (
 -- Tabla libro
 CREATE TABLE `libro` (
   `libr_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `libr_nombre` VARCHAR(100) NOT NULL,
+  `libr_titulo` VARCHAR(100) NOT NULL,
+  `libr_clasificacion` VARCHAR(100) NOT NULL,
+  `libr_numero` INT(11) NOT NULL,
   PRIMARY KEY (`libr_id`),
   UNIQUE KEY `libro_libr_nombre_unique` (`libr_nombre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Tabla pers_libr (asociación entre persona y libro)
-CREATE TABLE `pers_libr` (
+CREATE TABLE `prestamo` (
   `pers_id` INT(11) NOT NULL,
   `libr_id` INT(11) NOT NULL,
   PRIMARY KEY (`pers_id`,`libr_id`),
