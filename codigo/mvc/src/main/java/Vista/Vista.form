@@ -507,7 +507,6 @@
                 <StringItem index="3" value="El psicoanalista"/>
               </StringArray>
             </Property>
-            <Property name="selectedIndex" type="int" value="1"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -520,8 +519,11 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnPrestamo">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Ok"/>
+            <Property name="text" type="java.lang.String" value="Soliciar Prestamo"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrestamoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="volver2">
           <Properties>

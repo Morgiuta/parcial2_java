@@ -5,24 +5,25 @@
 package Modelo;
 
 import java.sql.*;
-import Modelo.Persona;
+
 
 /**
- * @author francisco
+ * @author tomimrc
  */
 
-public class PersonaDAO{
+public class PrestamoDAO{
 
-    public boolean insertarPersona(Connection conn, Persona persona) {
-        String sql = "INSERT INTO persona (pers_documento, pers_nombre) VALUES (?, ?)";
+    public boolean insertarPrestamo(Connection conn, Prestamo prestamo,Libro libro,Persona persona) {
+        String sql = "INSERT INTO prestamo (prestamo_numero, prestamo_dia,prestamo_duracion) VALUES (?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql)){
-            ps.setInt(1, persona.getDni());
-            ps.setString(2, persona.getNombre());
+            ps.setInt(1, prestamo.getNumero());
+            ps.setDate(2, (Date) prestamo.getDia_prestamo());
+            ps.setDate(3, (Date) prestamo.getDevolucion());
             ps.executeUpdate();
             return true;
         } catch (SQLException e){
-           e.printStackTrace();
-           return false;
+            e.printStackTrace();
+            return false;
         }
     }
 

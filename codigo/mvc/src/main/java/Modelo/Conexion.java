@@ -11,10 +11,12 @@ import java.sql.SQLException;
 /**
  * @author francisco
  */
-public class Conexion {
-    private static final String URL = "jdbc:mariadb://localhost:3306/parcial_java";
+public class Conexion { 
+    
+    
+    private static final String URL = "jdbc:mysql://localhost:3306/parcial_java";
     private static final String USER = "root";
-    private static final String PASSWORD = "inolvidable";
+    private static final String PASSWORD = "40972941";
 
     public static Connection getConnection() {
         try {

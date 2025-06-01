@@ -26,11 +26,16 @@ CREATE TABLE `libro` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Tabla pers_libr (asociación entre persona y libro)
-CREATE TABLE `prestamo` (
-  `pers_id` INT(11) NOT NULL,
-  `libr_id` INT(11) NOT NULL,
-  PRIMARY KEY (`pers_id`,`libr_id`),
-  KEY `pers_libr_libro_FK` (`libr_id`),
-  CONSTRAINT `pers_libr_libro_FK` FOREIGN KEY (`libr_id`) REFERENCES `libro` (`libr_id`),
-  CONSTRAINT `pers_libr_persona_FK` FOREIGN KEY (`pers_id`) REFERENCES `persona` (`pers_id`)
+CREATE TABLE prestamo (
+  pers_id int(11) NOT NULL,
+  libr_id int(11) NOT NULL,
+  prestamo_numero int(11) NOT NULL,
+  prestamo_dia date NOT NULL,
+  prestamo_duracion date NOT NULL,
+  PRIMARY KEY (pers_id,libr_id),
+  KEY prestamo_libro_FK (libr_id),
+  CONSTRAINT prestamo_libro_FK FOREIGN KEY (libr_id) REFERENCES libro (libr_id),
+  CONSTRAINT prestamo_persona_FK FOREIGN KEY (pers_id) REFERENCES persona (pers_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+select * from persona;

@@ -29,6 +29,30 @@ public class Prestamo {
         this.prestado = prestado;
     }
 
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public Date getDia_prestamo() {
+        return dia_prestamo;
+    }
+
+    public void setDia_prestamo(Date dia_prestamo) {
+        this.dia_prestamo = dia_prestamo;
+    }
+
+    public Date getDevolucion() {
+        return devolucion;
+    }
+
+    public void setDevolucion(Date devolucion) {
+        this.devolucion = devolucion;
+    }
+
     public Persona getSocio() {
         return socio;
     }

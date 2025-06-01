@@ -344,11 +344,15 @@ public class Vista extends javax.swing.JFrame {
         getContentPane().add(jPanelPedidos, "card6");
 
         jComboBoxLibros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "El principito", "Don quijote", "El cuervo", "El psicoanalista" }));
-        jComboBoxLibros.setSelectedIndex(1);
 
         tituloPrestamo.setText("Que libro quieres pedir?");
 
-        btnPrestamo.setText("Ok");
+        btnPrestamo.setText("Soliciar Prestamo");
+        btnPrestamo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrestamoActionPerformed(evt);
+            }
+        });
 
         volver2.setText("Volver");
         volver2.addActionListener(new java.awt.event.ActionListener() {
@@ -430,6 +434,7 @@ public class Vista extends javax.swing.JFrame {
                 jPanelLogin.setVisible(false);
                 jPanelMenu.setVisible(true);
                 bienvenido.setText("Bienvenido " + username);
+                control.cargarLibros();
             } else {
                 System.out.println("Alguno de los datos es incorrecto");
             }
@@ -533,6 +538,19 @@ public class Vista extends javax.swing.JFrame {
         jPanelLogin.setVisible(false);
         jPanelRegistro.setVisible(true);
     }//GEN-LAST:event_btnRegistroActionPerformed
+
+    private void btnPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrestamoActionPerformed
+        // TODO add your handling code here:
+        int selectedIndex = jComboBoxLibros.getSelectedIndex(); // Obtenemos el índice seleccionado
+
+        if (selectedIndex != -1) { // Verificamos que haya un elemento seleccionado
+           var libroSeleccionado = jComboBoxLibros.getModel().getSelectedItem(); // Obtenemos el objeto
+            System.out.println(libroSeleccionado);
+        } else {
+            System.out.println("Ningún libro seleccionado.");
+        }
+        
+    }//GEN-LAST:event_btnPrestamoActionPerformed
 
     /**
      * @param args the command line arguments
