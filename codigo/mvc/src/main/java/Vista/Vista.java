@@ -4,10 +4,12 @@
  */
 package Vista;
 import Controlador.Controlador;
-import Modelo.Persona;
-import Modelo.PersonaDAO;
+import Modelo.Libro;
+import Modelo.Prestamo;
 
 import javax.swing.*;
+import java.util.ArrayList;
+
 
 
 /**
@@ -67,6 +69,9 @@ public class Vista extends javax.swing.JFrame {
         tituloPrestamo = new javax.swing.JLabel();
         btnPrestamo = new javax.swing.JButton();
         volver2 = new javax.swing.JButton();
+        jComboBoxDuracion = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jPanelSalir = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -366,31 +371,51 @@ public class Vista extends javax.swing.JFrame {
             }
         });
 
+        jComboBoxDuracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 semana", "2 semanas", "3 semanas", "4 semanas " }));
+        jComboBoxDuracion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxDuracionActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Tiempo de Prestamo");
+
+        jLabel10.setText("Libros");
+
         javax.swing.GroupLayout jPanelPrestamoLayout = new javax.swing.GroupLayout(jPanelPrestamo);
         jPanelPrestamo.setLayout(jPanelPrestamoLayout);
         jPanelPrestamoLayout.setHorizontalGroup(
             jPanelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelPrestamoLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(jPanelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBoxLibros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tituloPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(388, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrestamoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(379, Short.MAX_VALUE)
                 .addGroup(jPanelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(volver2)
                     .addComponent(btnPrestamo))
                 .addGap(62, 62, 62))
+            .addGroup(jPanelPrestamoLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addGroup(jPanelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel9)
+                    .addComponent(jComboBoxDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxLibros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tituloPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelPrestamoLayout.setVerticalGroup(
             jPanelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPrestamoLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(tituloPrestamo)
-                .addGap(54, 54, 54)
+                .addGap(32, 32, 32)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBoxLibros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBoxDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
                 .addComponent(btnPrestamo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(volver2)
@@ -440,6 +465,7 @@ public class Vista extends javax.swing.JFrame {
                 jPanelMenu.setVisible(true);
                 bienvenido.setText("Bienvenido " + username);
                 personaId = respuesta;
+                //control.cargarLibros();
             } else {
                 System.out.println("Alguno de los datos es incorrecto");
             }
@@ -466,6 +492,15 @@ public class Vista extends javax.swing.JFrame {
             case "Ver libros pedidos" -> {
                 jPanelMenu.setVisible(false);
                 jPanelPedidos.setVisible(true);
+
+                ArrayList<Prestamo> prestamosPedidos = control.getPrestamos(personaId);
+                DefaultListModel<String> modelo = new DefaultListModel<>();
+                for (Prestamo p : prestamosPedidos) {
+                    Libro l = p.getPrestado().get(0); // Primer libro (o adaptalo si es más de uno)
+                    String estadoStr = p.isEstado() ? "Devuelto" : "Pendiente";
+                    modelo.addElement(l.getTitulo() + " (" + l.getClasificacion() + ") - " + estadoStr);
+                }
+                listaLibros.setModel(modelo);
             }case "Salir" -> {
                 jPanelMenu.setVisible(false);
                 jPanelSalir.setVisible(true);
@@ -548,19 +583,39 @@ public class Vista extends javax.swing.JFrame {
         // TODO add your handling code here:   
     }//GEN-LAST:event_jComboBoxMenuActionPerformed
 
-     private void btnPrestamoActionPerformed(java.awt.event.ActionEvent evt) { 
-        int selectedIndex = jComboBoxLibros.getSelectedIndex(); // Obtenemos el índice seleccionado
+    private void jComboBoxDuracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDuracionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxDuracionActionPerformed
 
-        if (selectedIndex != -1) { // Verificamos que haya un elemento seleccionado
-           var libroSeleccionado = jComboBoxLibros.getModel().getSelectedItem();
-           //String libroSeleccionadoStr = libroSeleccionado.toString();// Obtenemos el objeto
-            int libroId = control.buscarLibros((String) libroSeleccionado);
-            //control.crearPrestamo(libroId,);
+    private void btnPrestamoActionPerformed(java.awt.event.ActionEvent evt) {
+        int selectedIndex = jComboBoxLibros.getSelectedIndex();
+
+        if (selectedIndex != -1) {
+            String libroSeleccionado = (String) jComboBoxLibros.getModel().getSelectedItem();
+            int libroId = control.buscarLibros(libroSeleccionado);
+
+            // Obtener duración seleccionada
+            String duracionStr = (String) jComboBoxDuracion.getSelectedItem();
+            int semanas = Integer.parseInt(duracionStr.split(" ")[0]); // toma el número de semanas
+
+            // Calcular fechas
+            java.sql.Date fechaHoy = new java.sql.Date(System.currentTimeMillis());
+            long msEnUnaSemana = 7L * 24 * 60 * 60 * 1000;
+            java.sql.Date fechaDevolucion = new java.sql.Date(fechaHoy.getTime() + semanas * msEnUnaSemana);
+
+            // Llamada al controlador (adaptá la firma del método)
+            boolean ok = control.crearPrestamo(libroSeleccionado, personaId, fechaHoy, fechaDevolucion);
+
+            if (ok) {
+                JOptionPane.showMessageDialog(this, "Préstamo registrado exitosamente");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al registrar el préstamo");
+            }
         } else {
-            System.out.println("Ningún libro seleccionado.");
+            JOptionPane.showMessageDialog(this, "Ningún libro seleccionado.");
+        }
     }
-        
-     }
+
 
     /**
      * @param args the command line arguments
@@ -605,9 +660,11 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JButton btnInsertarRegistro;
     private javax.swing.JButton btnPrestamo;
     private javax.swing.JButton btnRegistro;
+    private javax.swing.JComboBox<String> jComboBoxDuracion;
     private javax.swing.JComboBox<String> jComboBoxLibros;
     private javax.swing.JComboBox<String> jComboBoxMenu;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -616,6 +673,7 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanelLogin;
     private javax.swing.JPanel jPanelMenu;
     private javax.swing.JPanel jPanelPedidos;

@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -132,30 +133,58 @@ public class Controlador implements ActionListener {
             return respuesta;
         } catch (SQLException e) {
     System.out.println("Error en insertarLibros: " + e.getMessage());
-    e.printStackTrace(); // Mostrará línea y causa del error exacto
+    e.printStackTrace();
     return -1;
         }
    }
-    
-    public boolean crearPrestamo(int libroId, Persona persona){
-        
-        Prestamo prestamo = new Prestamo(1,persona);
-        PrestamoDAO presDao = new PrestamoDAO();
 
-        try (Connection conn = Conexion.getConnection()){
+    public boolean crearPrestamo(String libroTitulo, int personaId, java.sql.Date fechaHoy, java.sql.Date fechaDevolucion) {
+        int numeroPrestamo = 1; // O tu lógica de numeración
+
+        try (Connection conn = Conexion.getConnection()) {
+            LibroDAO libroDao = new LibroDAO();
+            int libroId = libroDao.buscarLibro(conn, libroTitulo);
+
+            // Aquí obtenés el libro completo por ID
+            Libro libro = libroDao.getLibroPorId(conn, libroId); // Este método retorna titulo, clasificacion, numero
+
+            ArrayList<Libro> libros = new ArrayList<>();
+            libros.add(libro);
+
+            PersonaDAO personaDao = new PersonaDAO();
+            Persona socio = personaDao.getPersona(conn, personaId);
+
+            // Ahora sí, el constructor de Prestamo lleva los datos del libro
+            Prestamo prestamo = new Prestamo(numeroPrestamo, fechaHoy, fechaDevolucion, socio, libros);
+
+            // Al insertar el préstamo usás el libroId (para la FK en la tabla prestamo)
+            PrestamoDAO presDao = new PrestamoDAO();
             boolean respuesta = presDao.insertarPrestamo(conn, prestamo, libroId, personaId);
 
-            if (respuesta){
-                System.out.println("Prestamo insertada con exito");
+            if (respuesta) {
+                System.out.println("Prestamo insertado con éxito");
             } else {
                 System.out.println("Error insertando Prestamo");
             }
             return respuesta;
         } catch (SQLException e) {
-    System.out.println("Error en crearPrestamo: " + e.getMessage());
-    e.printStackTrace(); // Mostrará línea y causa del error exacto
-    return false;
+            System.out.println("Error en crearPrestamo: " + e.getMessage());
+            e.printStackTrace();
+            return false;
         }
     }
+
+    public ArrayList<Prestamo> getPrestamos(int personaId) {
+        ArrayList<Prestamo> prestamos = new ArrayList<>();
+        try (Connection conn = Conexion.getConnection()) {
+            PrestamoDAO dao = new PrestamoDAO();
+            prestamos = dao.getPrestamosPorPersona(conn, personaId); // Llama al método que implementaste recién
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return prestamos;
+    }
+
+
 }
 ;

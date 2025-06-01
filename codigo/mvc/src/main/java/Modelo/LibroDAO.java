@@ -68,5 +68,23 @@ public class LibroDAO {
         }
         return 0;
     }
-    
+
+    public Libro getLibroPorId(Connection conn, int libroId) {
+        String sql = "SELECT libr_titulo, libr_clasificacion, libr_numero FROM libro WHERE libr_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, libroId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String titulo = rs.getString("libr_titulo");
+                String clasificacion = rs.getString("libr_clasificacion");
+                int numero = rs.getInt("libr_numero");
+                return new Libro(titulo, clasificacion, numero);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }

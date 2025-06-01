@@ -12,22 +12,28 @@ public class Prestamo {
     public Date dia_prestamo;
     public Date devolucion;
     private Persona socio;
+    private boolean estado; // true = devuelto, false = activo
     private ArrayList<Libro> prestado;
-    
-
-
-
     
     public Prestamo(int par, Persona persona){}
 
-    public Prestamo(int numero,Persona socio, ArrayList<Libro> prestado) {
+    public Prestamo(int numero, java.sql.Date dia_prestamo, java.sql.Date devolucion, Persona socio, ArrayList<Libro> prestado) {
         this.numero = numero;
-        this.dia_prestamo = new java.sql.Date(System.currentTimeMillis());
-        this.devolucion = new java.sql.Date(System.currentTimeMillis()); // o una fecha futura
-
+        this.dia_prestamo = dia_prestamo;
+        this.devolucion = devolucion;
         this.socio = socio;
         this.prestado = prestado;
     }
+
+    public Prestamo(int numero, java.sql.Date dia_prestamo, java.sql.Date devolucion, Persona socio, ArrayList<Libro> prestado, boolean estado) {
+        this.numero = numero;
+        this.dia_prestamo = dia_prestamo;
+        this.devolucion = devolucion;
+        this.socio = socio;
+        this.prestado = prestado;
+        this.estado = estado;
+    }
+
 
     public int getNumero() {
         return numero;
@@ -48,6 +54,14 @@ public class Prestamo {
     public Date getDevolucion() {
         return devolucion;
     }
+
+    public boolean isEstado() {
+        return estado;
+    }
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
 
     public void setDevolucion(Date devolucion) {
         this.devolucion = devolucion;

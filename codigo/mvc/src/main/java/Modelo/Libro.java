@@ -14,7 +14,7 @@ public class Libro {
     
     public Libro(){}
 
-    public Libro(String titulo, String clasificacion, int numero, Persona socio) {
+    public Libro(String titulo, String clasificacion, int numero) {
         this.titulo = titulo;
         this.clasificacion = clasificacion;
         this.numero = numero;
