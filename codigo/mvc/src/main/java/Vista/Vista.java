@@ -7,13 +7,15 @@ import Controlador.Controlador;
 import Modelo.Persona;
 import Modelo.PersonaDAO;
 
+import javax.swing.*;
+
 
 /**
  *
  * @author ASUS
  */
 public class Vista extends javax.swing.JFrame {
-    
+    private int personaId = 0;
     Controlador control = new Controlador();
 
     /**
@@ -229,6 +231,11 @@ public class Vista extends javax.swing.JFrame {
         bienvenido.setText("Bienvenido User");
 
         jComboBoxMenu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Solicitar Prestamo", "Devolver un Libro", "Ver libros pedidos", "Salir" }));
+        jComboBoxMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxMenuActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Elija la operacion que le gustaria realizar.");
 
@@ -243,7 +250,7 @@ public class Vista extends javax.swing.JFrame {
         jPanelMenu.setLayout(jPanelMenuLayout);
         jPanelMenuLayout.setHorizontalGroup(
             jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelMenuLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMenuLayout.createSequentialGroup()
                 .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelMenuLayout.createSequentialGroup()
                         .addGap(142, 142, 142)
@@ -253,9 +260,7 @@ public class Vista extends javax.swing.JFrame {
                         .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jComboBoxMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(269, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMenuLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
                 .addComponent(btnEnviar)
                 .addGap(66, 66, 66))
         );
@@ -268,7 +273,7 @@ public class Vista extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addComponent(jComboBoxMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
                 .addComponent(btnEnviar)
                 .addGap(47, 47, 47))
         );
@@ -425,11 +430,12 @@ public class Vista extends javax.swing.JFrame {
             titulo.setText("Ingrese su DNI");
             System.out.println("No ingreso DNI");
         }else{
-            boolean respuesta = control.login(username, clave);
-            if (respuesta){
+            int respuesta = control.login(username, clave);
+            if (respuesta != 0){
                 jPanelLogin.setVisible(false);
                 jPanelMenu.setVisible(true);
                 bienvenido.setText("Bienvenido " + username);
+                personaId = respuesta;
             } else {
                 System.out.println("Alguno de los datos es incorrecto");
             }
@@ -443,7 +449,6 @@ public class Vista extends javax.swing.JFrame {
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
         // TODO add your handling code here:
         Object eleccion = jComboBoxMenu.getModel().getSelectedItem();
-
         switch (eleccion.toString()) {
             case "Solicitar Prestamo" -> {
                 jPanelMenu.setVisible(false);
@@ -522,7 +527,7 @@ public class Vista extends javax.swing.JFrame {
         boolean respuesta =controlador.singIn(nombre, dni);
         if (respuesta){
             jPanelRegistro.setVisible(false);
-            jPanelMenu.setVisible(true);
+            jPanelLogin.setVisible(true);
         }else {
             System.out.println("Ya existe el usuario");
         }
@@ -533,6 +538,10 @@ public class Vista extends javax.swing.JFrame {
         jPanelLogin.setVisible(false);
         jPanelRegistro.setVisible(true);
     }//GEN-LAST:event_btnRegistroActionPerformed
+
+    private void jComboBoxMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxMenuActionPerformed
 
     /**
      * @param args the command line arguments

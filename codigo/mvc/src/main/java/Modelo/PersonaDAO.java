@@ -5,7 +5,6 @@
 package Modelo;
 
 import java.sql.*;
-import Modelo.Persona;
 
 /**
  * @author francisco
@@ -26,16 +25,18 @@ public class PersonaDAO{
         }
     }
 
-    public boolean buscarPersona(Connection conn, Persona persona) {
-        String sql = "SELECT pers_documento, pers_nombre FROM persona WHERE pers_documento = ?";
+    public int buscarPersona(Connection conn, Persona persona) {
+        String sql = "SELECT pers_id, pers_documento, pers_nombre FROM persona WHERE pers_documento = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setInt(1, persona.getDni());
-            ps.executeQuery();
-            return true;
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                int personaId = rs.getInt("pers_id");
+                return personaId;
+            }
         }catch (SQLException e){
             e.printStackTrace();
-            return false;
         }
+        return 0;
     }
-
 }
