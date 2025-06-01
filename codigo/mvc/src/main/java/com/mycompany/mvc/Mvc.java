@@ -21,7 +21,7 @@ public class Mvc {
         Modelo mod = new Modelo();
         Vista view = new Vista();
         Persona persona = new Persona();
-        Prestamo prestamo = new Prestamo();
+        Prestamo prestamo = new Prestamo(1, persona);
         Libro libro = new Libro();
         
         Controlador ctrl = new Controlador(persona,prestamo,libro,view);

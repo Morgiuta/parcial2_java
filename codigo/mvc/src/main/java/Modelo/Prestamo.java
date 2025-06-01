@@ -4,27 +4,27 @@
  */
 package Modelo;
 import java.util.ArrayList;
-import java.util.Date;
-/**
- *
- * @author ASUS
- */
+import java.sql.Date;
+
+
 public class Prestamo {
-    
     public int numero;
     public Date dia_prestamo;
     public Date devolucion;
     private Persona socio;
     private ArrayList<Libro> prestado;
+    
+
 
 
     
-    public Prestamo(){}
+    public Prestamo(int par, Persona persona){}
 
-    public Prestamo(int numero, Date dia_prestamo, Date devolucion, Persona socio, ArrayList<Libro> prestado) {
+    public Prestamo(int numero,Persona socio, ArrayList<Libro> prestado) {
         this.numero = numero;
-        this.dia_prestamo = dia_prestamo;
-        this.devolucion = devolucion;
+        this.dia_prestamo = new java.sql.Date(System.currentTimeMillis());
+        this.devolucion = new java.sql.Date(System.currentTimeMillis()); // o una fecha futura
+
         this.socio = socio;
         this.prestado = prestado;
     }

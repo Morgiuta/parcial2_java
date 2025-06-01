@@ -39,4 +39,21 @@ public class PersonaDAO{
         }
         return 0;
     }
+    public Persona getPersona(Connection conn, int id){
+        String sql = "SELECT pers_nombre, pers_documento FROM persona WHERE pers_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet resultado = ps.executeQuery();
+            if (resultado.next()) {
+                String nombre = resultado.getString("pers_nombre");
+                int documento = resultado.getInt("pers_documento");
+                return new Persona(documento, nombre);
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

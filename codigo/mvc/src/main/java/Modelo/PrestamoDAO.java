@@ -13,40 +13,20 @@ import java.sql.*;
 
 public class PrestamoDAO{
 
-    public boolean insertarPrestamo(Connection conn, Prestamo prestamo,Libro libro,Persona persona) {
-        String sql = "INSERT INTO prestamo (prestamo_numero, prestamo_dia,prestamo_duracion) VALUES (?, ?, ?)";
+    public boolean insertarPrestamo(Connection conn, Prestamo prestamo,int libroId,int personaId) {
+        String sql = "INSERT INTO prestamo (pers_id,libr_id,prestamo_numero, prestamo_dia,prestamo_duracion) VALUES (?,?,?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql)){
-            ps.setInt(1, prestamo.getNumero());
-            ps.setDate(2, (Date) prestamo.getDia_prestamo());
-            ps.setDate(3, (Date) prestamo.getDevolucion());
+            ps.setInt(1, personaId);
+            ps.setInt(2, libroId);   
+            ps.setInt(3, prestamo.getNumero());
+            ps.setDate(4, (Date) prestamo.getDia_prestamo());
+            ps.setDate(5, (Date) prestamo.getDevolucion());
             ps.executeUpdate();
+            System.out.println("Prestamo ingresado correctamente");
             return true;
         } catch (SQLException e){
             e.printStackTrace();
             return false;
         }
-    }
 
-    public boolean buscarPersona(Connection conn, Persona persona) {
-        String sql = "SELECT pers_documento, pers_nombre FROM persona WHERE pers_documento = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)){
-            ps.setInt(1, persona.getDni());
-            ResultSet resultado = ps.executeQuery();
-            if (resultado.next()) {
-                System.out.println("Hay resultados");
-                // Si querés acceder a los datos:
-                String nombre = resultado.getString("pers_nombre"); // ejemplo
-                System.out.println("Nombre: " + nombre);
-                return true;
-            } else {
-                System.out.println("No hay resultados");
-                return false;
-            }
-
-        }catch (SQLException e){
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-}
+}}

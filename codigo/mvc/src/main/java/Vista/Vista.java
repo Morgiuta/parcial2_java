@@ -549,14 +549,18 @@ public class Vista extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxMenuActionPerformed
 
      private void btnPrestamoActionPerformed(java.awt.event.ActionEvent evt) { 
-int selectedIndex = jComboBoxLibros.getSelectedIndex(); // Obtenemos el índice seleccionado
+        int selectedIndex = jComboBoxLibros.getSelectedIndex(); // Obtenemos el índice seleccionado
 
         if (selectedIndex != -1) { // Verificamos que haya un elemento seleccionado
-           var libroSeleccionado = jComboBoxLibros.getModel().getSelectedItem(); // Obtenemos el objeto
-            System.out.println(libroSeleccionado);
+           var libroSeleccionado = jComboBoxLibros.getModel().getSelectedItem();
+           //String libroSeleccionadoStr = libroSeleccionado.toString();// Obtenemos el objeto
+            int libroId = control.buscarLibros((String) libroSeleccionado);
+            //control.crearPrestamo(libroId,);
         } else {
             System.out.println("Ningún libro seleccionado.");
-    }                                                  }
+    }
+        
+     }
 
     /**
      * @param args the command line arguments

@@ -118,13 +118,32 @@ public class Controlador implements ActionListener {
     return false;
         }
    }
+    public int buscarLibros(String titulo) {
+        Libro libro = new Libro();
+        LibroDAO libroDAO = new LibroDAO();
+    try (Connection conn = Conexion.getConnection()){
+            int respuesta = libroDAO.buscarLibro(conn, titulo);
+
+            if (respuesta != 0){
+                System.out.println("libro insertados con exito");
+            } else {
+                System.out.println("Error insertando libros");
+            }
+            return respuesta;
+        } catch (SQLException e) {
+    System.out.println("Error en insertarLibros: " + e.getMessage());
+    e.printStackTrace(); // Mostrará línea y causa del error exacto
+    return -1;
+        }
+   }
     
-    public boolean crearPrestamo(){
-        Prestamo prestamo = new Prestamo();
+    public boolean crearPrestamo(int libroId, Persona persona){
+        
+        Prestamo prestamo = new Prestamo(1,persona);
         PrestamoDAO presDao = new PrestamoDAO();
 
         try (Connection conn = Conexion.getConnection()){
-            boolean respuesta = presDao.insertarPrestamo(conn, prestamo, libro, persona);
+            boolean respuesta = presDao.insertarPrestamo(conn, prestamo, libroId, personaId);
 
             if (respuesta){
                 System.out.println("Prestamo insertada con exito");

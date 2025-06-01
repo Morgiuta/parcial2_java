@@ -49,16 +49,24 @@ public class LibroDAO {
     }
 }
 
-    public boolean buscarLibro(Connection conn, String documento) {
-        String sql = "SELECT libr_titulo, libr_clasificacion, libr_numero FROM libro WHERE libro = ?";
+    public int buscarLibro(Connection conn, String libro) {
+        String sql = "SELECT libr_id,libr_titulo, libr_clasificacion, libr_numero FROM libro WHERE libr_titulo = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)){
-            ps.setString(1, documento);
-            ps.executeQuery();
-            return true;
+            ps.setString(1, libro);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                int libroId = rs.getInt("libr_id");
+                String libroNombre = rs.getString("libr_titulo");
+                String libroClasificacion = rs.getString("libr_clasificacion");
+                int libroNumero = rs.getInt("libr_numero");
+
+                System.out.println("ID: "+libroId +" "+ libroNombre + "" + libroClasificacion+ ""+ libroNumero );
+                return libroId;
+            }
         }catch (SQLException e){
             e.printStackTrace();
-            return false;
         }
+        return 0;
     }
     
 }
