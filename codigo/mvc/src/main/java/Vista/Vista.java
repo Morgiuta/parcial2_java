@@ -235,7 +235,7 @@ public class Vista extends javax.swing.JFrame {
 
         bienvenido.setText("Bienvenido User");
 
-        jComboBoxMenu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Solicitar Prestamo", "Devolver un Libro", "Ver libros pedidos", "Salir" }));
+        jComboBoxMenu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Solicitar Prestamo", "Ver libros pedidos", "Salir" }));
         jComboBoxMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxMenuActionPerformed(evt);
@@ -485,10 +485,6 @@ public class Vista extends javax.swing.JFrame {
                 jPanelMenu.setVisible(false);
                 jPanelPrestamo.setVisible(true);
             }
-            case "Devolver un Libro" -> {
-                jPanelMenu.setVisible(false);
-                jPanelPedidos.setVisible(true);
-            }
             case "Ver libros pedidos" -> {
                 jPanelMenu.setVisible(false);
                 jPanelPedidos.setVisible(true);
@@ -496,7 +492,7 @@ public class Vista extends javax.swing.JFrame {
                 ArrayList<Prestamo> prestamosPedidos = control.getPrestamos(personaId);
                 DefaultListModel<String> modelo = new DefaultListModel<>();
                 for (Prestamo p : prestamosPedidos) {
-                    Libro l = p.getPrestado().get(0); // Primer libro (o adaptalo si es más de uno)
+                    Libro l = p.getPrestado().get(0);
                     String estadoStr = p.isEstado() ? "Devuelto" : "Pendiente";
                     modelo.addElement(l.getTitulo() + " (" + l.getClasificacion() + ") - " + estadoStr);
                 }
@@ -530,19 +526,28 @@ public class Vista extends javax.swing.JFrame {
         jPanelMenu.setVisible(true);
     }//GEN-LAST:event_volver2ActionPerformed
 
-    private void EntregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntregarActionPerformed
-        // TODO add your handling code here:
-        
-       int selectedIndex = listaLibros.getSelectedIndex(); // Obtenemos el índice seleccionado
+    private void EntregarActionPerformed(java.awt.event.ActionEvent evt) {
+        int selectedIndex = listaLibros.getSelectedIndex();
 
-        if (selectedIndex != -1) { // Verificamos que haya un elemento seleccionado
-            String libroSeleccionado = listaLibros.getModel().getElementAt(selectedIndex); // Obtenemos el objeto
-            System.out.println(libroSeleccionado);
+        if (selectedIndex != -1) {
+            String libroSeleccionado = listaLibros.getModel().getElementAt(selectedIndex);
+
+            // Extraer el título (esto depende del formato, ajustá si lo necesitas)
+            String titulo = libroSeleccionado.split(" \\(")[0];
+
+            int libroId = control.buscarLibros(titulo);
+
+            boolean ok = control.devolverPrestamo(personaId, libroId);
+            if (ok) {
+                JOptionPane.showMessageDialog(this, "¡Libro devuelto correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                // Opcional: Actualizá la lista para que no muestre más el libro devuelto
+            } else {
+                JOptionPane.showMessageDialog(this, "Hubo un error al devolver el libro.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            System.out.println("Ningún libro seleccionado.");
+            JOptionPane.showMessageDialog(this, "Seleccioná un libro primero.", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
-
-    }//GEN-LAST:event_EntregarActionPerformed
+    }
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
@@ -567,7 +572,7 @@ public class Vista extends javax.swing.JFrame {
         boolean respuesta =controlador.singIn(nombre, dni);
         if (respuesta){
             jPanelRegistro.setVisible(false);
-            jPanelMenu.setVisible(true);
+            jPanelLogin.setVisible(true);
         }else {
             System.out.println("Ya existe el usuario");
         }
@@ -592,11 +597,10 @@ public class Vista extends javax.swing.JFrame {
 
         if (selectedIndex != -1) {
             String libroSeleccionado = (String) jComboBoxLibros.getModel().getSelectedItem();
-            int libroId = control.buscarLibros(libroSeleccionado);
 
             // Obtener duración seleccionada
             String duracionStr = (String) jComboBoxDuracion.getSelectedItem();
-            int semanas = Integer.parseInt(duracionStr.split(" ")[0]); // toma el número de semanas
+            int semanas = Integer.parseInt(duracionStr.split(" ")[0]);
 
             // Calcular fechas
             java.sql.Date fechaHoy = new java.sql.Date(System.currentTimeMillis());

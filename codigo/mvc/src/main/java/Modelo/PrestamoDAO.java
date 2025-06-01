@@ -71,5 +71,16 @@ public class PrestamoDAO{
         return prestamos;
     }
 
-
+    public boolean libroDevuelto(Connection conn, int personaId, int libroId) {
+        String sql = "UPDATE prestamo SET prestamo_estado = 1 WHERE pers_id = ? AND libr_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, personaId);
+            ps.setInt(2, libroId);
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

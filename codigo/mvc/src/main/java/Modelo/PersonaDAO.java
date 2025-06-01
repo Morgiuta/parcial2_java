@@ -39,6 +39,7 @@ public class PersonaDAO{
         }
         return 0;
     }
+
     public Persona getPersona(Connection conn, int id){
         String sql = "SELECT pers_nombre, pers_documento FROM persona WHERE pers_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -56,4 +57,7 @@ public class PersonaDAO{
             return null;
         }
     }
+
+
+
 }

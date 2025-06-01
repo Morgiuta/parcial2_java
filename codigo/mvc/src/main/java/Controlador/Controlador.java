@@ -38,15 +38,6 @@ public class Controlador implements ActionListener {
         this.libro = libro;
         this.view = view;
     }
-    // public Controlador(Persona persona, Prestamo prestamo, Libro libro,Vista view, ) {
-       // this.persona = persona;
-        //this.prestamo = prestamo;
-       // this.libro = libro;
-     //   this.view = view;
-   //     this.prestamoDAO = prestamoDAO;
- //   }
- 
-  
     
     public void iniciar(){
         view.setTitle("MVC Prueba");
@@ -56,7 +47,7 @@ public class Controlador implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e){
         persona.nombre = view.usuario.getText();
-        
+
 
         //persona.setNumeroUno(Integer.parseInt(view.usuario.getText()))
         //model.setNumeroDos(Integer.parseInt(view.usuario.getText()));
@@ -99,26 +90,8 @@ public class Controlador implements ActionListener {
             return false;
         }
     }
-    
 
-    public boolean cargarLibros() {
-        Libro libro = new Libro();
-        LibroDAO libroDAO = new LibroDAO();
-    try (Connection conn = Conexion.getConnection()){
-            boolean respuesta = libroDAO.insertarLibros(conn);
 
-            if (respuesta){
-                System.out.println("libro insertados con exito");
-            } else {
-                System.out.println("Error insertando libros");
-            }
-            return respuesta;
-        } catch (SQLException e) {
-    System.out.println("Error en insertarLibros: " + e.getMessage());
-    e.printStackTrace(); // Mostrará línea y causa del error exacto
-    return false;
-        }
-   }
     public int buscarLibros(String titulo) {
         Libro libro = new Libro();
         LibroDAO libroDAO = new LibroDAO();
@@ -185,6 +158,14 @@ public class Controlador implements ActionListener {
         return prestamos;
     }
 
+    public boolean devolverPrestamo(int personaId, int libroId) {
+        try (Connection conn = Conexion.getConnection()) {
+            PrestamoDAO dao = new PrestamoDAO();
+            return dao.libroDevuelto(conn, personaId, libroId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
-;
