@@ -7,35 +7,39 @@ CREATE DATABASE IF NOT EXISTS parcial_java
 USE parcial_java;
 
 -- Tabla persona
-CREATE TABLE `persona` (
+CREATE TABLE IF NOT EXISTS `persona` (
   `pers_id` INT(11) NOT NULL AUTO_INCREMENT,
   `pers_nombre` VARCHAR(100) NOT NULL,
   `pers_documento` INT(11) NOT NULL,
   PRIMARY KEY (`pers_id`),
   UNIQUE KEY `pers_documento_UNIQUE` (`pers_documento`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 -- Tabla libro
-CREATE TABLE `libro` (
+CREATE TABLE IF NOT EXISTS `libro` (
   `libr_id` INT(11) NOT NULL AUTO_INCREMENT,
   `libr_titulo` VARCHAR(100) NOT NULL,
   `libr_clasificacion` VARCHAR(100) NOT NULL,
   `libr_numero` INT(11) NOT NULL,
   PRIMARY KEY (`libr_id`),
-  UNIQUE KEY `libro_libr_nombre_unique` (`libr_nombre`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  UNIQUE KEY `libro_libr_titulo_unique` (`libr_titulo`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 -- Tabla pers_libr (asociación entre persona y libro)
-CREATE TABLE prestamo (
-  pers_id int(11) NOT NULL,
-  libr_id int(11) NOT NULL,
-  prestamo_numero int(11) NOT NULL,
-  prestamo_dia date NOT NULL,
-  prestamo_duracion date NOT NULL,
-  PRIMARY KEY (pers_id,libr_id),
-  KEY prestamo_libro_FK (libr_id),
-  CONSTRAINT prestamo_libro_FK FOREIGN KEY (libr_id) REFERENCES libro (libr_id),
-  CONSTRAINT prestamo_persona_FK FOREIGN KEY (pers_id) REFERENCES persona (pers_id)
+CREATE TABLE IF NOT EXISTS `prestamo` (
+  `pers_id` INT(11) NOT NULL,
+  `libr_id` INT(11) NOT NULL,
+  `prestamo_numero` INT(11) NOT NULL,
+  `prestamo_dia` DATE NOT NULL,
+  `prestamo_duracion` DATE NOT NULL,
+  `prestamo_estado` TINYINT(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`pers_id`, `libr_id`),
+  KEY `prestamo_libro_FK` (`libr_id`),
+  CONSTRAINT `prestamo_libro_FK` FOREIGN KEY (`libr_id`) REFERENCES `libro` (`libr_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `prestamo_persona_FK` FOREIGN KEY (`pers_id`) REFERENCES `persona` (`pers_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 select * from persona;
