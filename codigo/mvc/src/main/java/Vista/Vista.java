@@ -399,8 +399,8 @@ public class Vista extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(jComboBoxDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxLibros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tituloPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(tituloPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(287, Short.MAX_VALUE))
         );
         jPanelPrestamoLayout.setVerticalGroup(
             jPanelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -411,7 +411,7 @@ public class Vista extends javax.swing.JFrame {
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBoxLibros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBoxDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -465,9 +465,10 @@ public class Vista extends javax.swing.JFrame {
                 jPanelMenu.setVisible(true);
                 bienvenido.setText("Bienvenido " + username);
                 personaId = respuesta;
-                //control.cargarLibros();
             } else {
                 System.out.println("Alguno de los datos es incorrecto");
+                JOptionPane.showMessageDialog(this, "El usuario no existe", "Error", JOptionPane.INFORMATION_MESSAGE);
+                
             }
         }
     }//GEN-LAST:event_btn1ActionPerformed
@@ -531,8 +532,6 @@ public class Vista extends javax.swing.JFrame {
 
         if (selectedIndex != -1) {
             String libroSeleccionado = listaLibros.getModel().getElementAt(selectedIndex);
-
-            // Extraer el título (esto depende del formato, ajustá si lo necesitas)
             String titulo = libroSeleccionado.split(" \\(")[0];
 
             int libroId = control.buscarLibros(titulo);
@@ -540,7 +539,6 @@ public class Vista extends javax.swing.JFrame {
             boolean ok = control.devolverPrestamo(personaId, libroId);
             if (ok) {
                 JOptionPane.showMessageDialog(this, "¡Libro devuelto correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                // Opcional: Actualizá la lista para que no muestre más el libro devuelto
             } else {
                 JOptionPane.showMessageDialog(this, "Hubo un error al devolver el libro.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -551,13 +549,10 @@ public class Vista extends javax.swing.JFrame {
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-        // campo usuario
-        // Esto no hace nada
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
-        // campo documento 
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void btnInsertarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarRegistroActionPerformed
@@ -597,17 +592,13 @@ public class Vista extends javax.swing.JFrame {
 
         if (selectedIndex != -1) {
             String libroSeleccionado = (String) jComboBoxLibros.getModel().getSelectedItem();
-
-            // Obtener duración seleccionada
             String duracionStr = (String) jComboBoxDuracion.getSelectedItem();
             int semanas = Integer.parseInt(duracionStr.split(" ")[0]);
 
-            // Calcular fechas
             java.sql.Date fechaHoy = new java.sql.Date(System.currentTimeMillis());
             long msEnUnaSemana = 7L * 24 * 60 * 60 * 1000;
             java.sql.Date fechaDevolucion = new java.sql.Date(fechaHoy.getTime() + semanas * msEnUnaSemana);
 
-            // Llamada al controlador (adaptá la firma del método)
             boolean ok = control.crearPrestamo(libroSeleccionado, personaId, fechaHoy, fechaDevolucion);
 
             if (ok) {

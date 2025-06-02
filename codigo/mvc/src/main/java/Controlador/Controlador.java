@@ -112,14 +112,14 @@ public class Controlador implements ActionListener {
    }
 
     public boolean crearPrestamo(String libroTitulo, int personaId, java.sql.Date fechaHoy, java.sql.Date fechaDevolucion) {
-        int numeroPrestamo = 1; // O tu lógica de numeración
+        int numeroPrestamo = 1;
 
         try (Connection conn = Conexion.getConnection()) {
             LibroDAO libroDao = new LibroDAO();
             int libroId = libroDao.buscarLibro(conn, libroTitulo);
 
-            // Aquí obtenés el libro completo por ID
-            Libro libro = libroDao.getLibroPorId(conn, libroId); // Este método retorna titulo, clasificacion, numero
+
+            Libro libro = libroDao.getLibroPorId(conn, libroId);
 
             ArrayList<Libro> libros = new ArrayList<>();
             libros.add(libro);
@@ -127,10 +127,8 @@ public class Controlador implements ActionListener {
             PersonaDAO personaDao = new PersonaDAO();
             Persona socio = personaDao.getPersona(conn, personaId);
 
-            // Ahora sí, el constructor de Prestamo lleva los datos del libro
             Prestamo prestamo = new Prestamo(numeroPrestamo, fechaHoy, fechaDevolucion, socio, libros);
 
-            // Al insertar el préstamo usás el libroId (para la FK en la tabla prestamo)
             PrestamoDAO presDao = new PrestamoDAO();
             boolean respuesta = presDao.insertarPrestamo(conn, prestamo, libroId, personaId);
 

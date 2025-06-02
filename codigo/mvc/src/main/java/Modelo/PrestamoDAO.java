@@ -45,21 +45,17 @@ public class PrestamoDAO{
             ps.setInt(1, personaId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                // Libro
                 String titulo = rs.getString("libr_titulo");
                 String clasificacion = rs.getString("libr_clasificacion");
                 int numeroLibro = rs.getInt("libr_numero");
                 Libro libro = new Libro(titulo, clasificacion, numeroLibro);
 
-                // Fechas y número de préstamo
                 int numeroPrestamo = rs.getInt("prestamo_numero");
                 java.sql.Date diaPrestamo = rs.getDate("prestamo_dia");
                 java.sql.Date devolucion = rs.getDate("prestamo_duracion");
 
-                // Estado
                 boolean estado = rs.getBoolean("prestamo_estado");
 
-                // Constructor (adaptalo según tu modelo)
                 ArrayList<Libro> libros = new ArrayList<>();
                 libros.add(libro);
                 Prestamo prestamo = new Prestamo(numeroPrestamo, diaPrestamo, devolucion, null, libros, estado);

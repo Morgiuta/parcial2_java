@@ -476,9 +476,9 @@
                       <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                       <Component id="jComboBoxDuracion" min="-2" max="-2" attributes="0"/>
                       <Component id="jComboBoxLibros" min="-2" max="-2" attributes="0"/>
-                      <Component id="tituloPrestamo" min="-2" pref="142" max="-2" attributes="0"/>
+                      <Component id="tituloPrestamo" alignment="0" min="-2" pref="243" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="287" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -491,7 +491,7 @@
                   <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jComboBoxLibros" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="28" max="32767" attributes="0"/>
+                  <EmptySpace pref="30" max="32767" attributes="0"/>
                   <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jComboBoxDuracion" min="-2" max="-2" attributes="0"/>
