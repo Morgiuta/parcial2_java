@@ -1,12 +1,9 @@
--- Crea la base de datos si no existe
 CREATE DATABASE IF NOT EXISTS parcial_java
   DEFAULT CHARACTER SET utf8mb4
   DEFAULT COLLATE utf8mb4_general_ci;
 
--- Selecciona la base de datos para trabajar
 USE parcial_java;
 
--- Tabla persona
 CREATE TABLE IF NOT EXISTS `persona` (
   `pers_id` INT(11) NOT NULL AUTO_INCREMENT,
   `pers_nombre` VARCHAR(100) NOT NULL,
@@ -16,7 +13,6 @@ CREATE TABLE IF NOT EXISTS `persona` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
--- Tabla libro
 CREATE TABLE IF NOT EXISTS `libro` (
   `libr_id` INT(11) NOT NULL AUTO_INCREMENT,
   `libr_titulo` VARCHAR(100) NOT NULL,
@@ -27,7 +23,6 @@ CREATE TABLE IF NOT EXISTS `libro` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
--- Tabla pers_libr (asociación entre persona y libro)
 CREATE TABLE IF NOT EXISTS `prestamo` (
   `pers_id` INT(11) NOT NULL,
   `libr_id` INT(11) NOT NULL,
@@ -40,6 +35,3 @@ CREATE TABLE IF NOT EXISTS `prestamo` (
   CONSTRAINT `prestamo_libro_FK` FOREIGN KEY (`libr_id`) REFERENCES `libro` (`libr_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `prestamo_persona_FK` FOREIGN KEY (`pers_id`) REFERENCES `persona` (`pers_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-select * from persona;
